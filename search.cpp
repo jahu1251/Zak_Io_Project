@@ -35,9 +35,3 @@ map<string, vector<string>> wyszukiwanie(list<string> pliki) {
 
     return mapa;
     }
-
-
-int main(int argc, const char* argv[]) {
-    cout << "Witaj" << endl;
-    return 0;
-}
