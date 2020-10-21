@@ -5,28 +5,27 @@
 #include<vector>
 #include<fstream>
 #include<string>
-using namespace std;
 
-map<string, vector<string>> wyszukiwanie(list<string> pliki) {
+std::map<std::string, std::vector<std::string>> wyszukiwanie(std::list<std::string> pliki) {
 
     auto koniec = pliki.end();
-    map<string, vector<string>> mapa;
+    std::map<std::string, std::vector<std::string>> mapa;
 
     for (auto it = pliki.begin(); it != pliki.end(); ++it) {
 
-        ifstream plik("*it");
+        std::ifstream plik(*it);
 
             while (!plik.eof()) {
 
-                string linijka;
+                std::string linijka;
                 getline(plik, linijka);
-                string szukany = "#include";
+                std::string szukany = "#include\"";
                 size_t miejsce = linijka.find(szukany);
 
-                if (miejsce != string::npos){
+                if (miejsce != std::string::npos){
 
                     miejsce += szukany.size();
-                    string nazwa_pliku = linijka.substr(miejsce);
+                    std::string nazwa_pliku = linijka.substr(miejsce);
                     mapa[*it].push_back(nazwa_pliku);
 
                 }
