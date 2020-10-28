@@ -2,12 +2,16 @@
 #include<map>
 #include<list>
 #include"search.cpp"
+
 class Graph
 {
+    //struktura przyjmujaca dane z search
     std::map<std::string,std::list<std::string>>l;
-    std::map<std::string,std::list<std::string>>z;
+    std::string pod = "digraph G {\n";
+    std::string end = "}";
 
     public:
+
         Graph(std::list<std::string> Files)
         {
              
@@ -19,10 +23,11 @@ class Graph
             {
                 if(i->first !="a.out")
                 {
-                    std::cout<<i->first<<" <-";
                     for(auto j=i->second.begin() ; j != i->second.end();++j)
                     {
-                    std::cout<<*j<<" ";
+                        std::cout<<"\""+i->first+"\""<<" <-";
+
+                        std::cout<<*j<<" ";
                     }
 
                 }
@@ -31,24 +36,42 @@ class Graph
             }
 
 
+                Save_In_File(l);
+
+
         };
 
-        void addEdge(std::string x,std::string y)
+        void Save_In_File(std::map<std::string, std::vector<std::string>>  x)
         {
-            z[x].push_back(y);
-            z[y].push_back(x);
+            std::string name = " graf.dot";
+            std::ofstream save(name);
+            save<<pod;
+
+            
+            for(auto i = x.begin() ; i != x.end() ; ++i)
+            {
+                if(i->first != "a.out")
+                {
+                    //tworzenie pliku
+                    for(auto j=i->second.begin(); j!=i->second.end() ; ++j)
+                    {
+                        save<<*j<<"->"<<"\""+i->first+"\""<<std::endl;
+                    }
+
+
+                }
+            }
+             save<<end;
+            
+            
+            std::string command = "dot -Tpng -O";
+
+
+            system((command + name).c_str());
+
         }
 
-        void printAdj()
-        {
-            for(auto i=z.begin() ; i!=z.end();++i)
-            {
-                std::cout<<i->first<<": ";
-                for(auto j=i->second.begin() ; j != i->second.end();++j)
-                {
-                    std::cout<<*j<<" ";
-                }
-               std::cout<<std::endl;
-            }
-        }
+     
+
+
 };
