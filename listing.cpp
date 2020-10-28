@@ -2,20 +2,28 @@
 #include <iostream>
 #include <filesystem>
 #include <list>
+#include <map>
 
-std::list<std::string> listing()
-{
-    std::list<std::string> abc;
-    std::string sciezka;
-    std::cout << "Podaj sciezke do folderu " << std::endl;
-    std::cin >> sciezka;
-    for (auto &entry : std::filesystem::directory_iterator(sciezka))
+    std::map<std::string, int> listing()
     {
-        if(std::filesystem::is_directory(std::filesystem::path(entry))!= 1)
+        std::map<std::string, int> map_name_size;
+        std::string sciezka;
+        std::cout << "Podaj sciezke do folderu " << std::endl;
+        std::cin >> sciezka;
+        for (auto& entry : std::filesystem::directory_iterator(sciezka))
         {
-            abc.push_back(std::filesystem::path(entry).filename().string());
+            if (std::filesystem::is_directory(std::filesystem::path(entry)) != 1)
+            {
+                if (std::filesystem::file_size(entry) < 1024)
+                {
+                    map_name_size[std::filesystem::path(entry).filename().string()] = 1;
+                }
+                else
+                {
+                    map_name_size[std::filesystem::path(entry).filename().string()] = std::filesystem::file_size(entry) / 1024;
+                }
+            }
         }
-    }
-    return abc;
-}
+        return map_name_size;
 
+    }
