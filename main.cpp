@@ -7,4 +7,5 @@ int main()
    Graph nowa(listing());
     
     return 0;
+
 }
