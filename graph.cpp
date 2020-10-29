@@ -20,24 +20,7 @@ class Graph
              
             //selekcja plikow #include
             std::map<std::string, std::vector<std::pair<std::string,int>>>  l;
-            l= wyszukiwanie(Files);        
-
-            for(auto i=l.begin() ; i!=l.end();++i)
-            {
-                if(i->first !="a.out")
-                {
-                    for(auto j=i->second.begin() ; j != i->second.end();++j)
-                    {
-                        std::cout<<i->first<<" druga czesc: "<<j->first<<" "<<j->second<<std::endl;
-                 
-                    }
-
-                }
-               
-               std::cout<<std::endl;
-            }
-
-
+            l= wyszukiwanie(Files);       
                Save_In_File(l);
 
 
