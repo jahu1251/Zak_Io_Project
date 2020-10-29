@@ -2,22 +2,25 @@
 #include<map>
 #include<list>
 #include"search.cpp"
+#include<string> 
+
+//std::string s = std::to_string(42);
 
 class Graph
 {
     //struktura przyjmujaca dane z search
-    std::map<std::string,std::list<std::string>>l;
+    std::map<std::string, std::vector<std::pair<std::string,int>>> l;
     std::string pod = "digraph G {\n";
     std::string end = "}";
 
     public:
 
-        Graph(std::list<std::string> Files)
+        Graph(std::map<std::string, int> Files)
         {
              
             //selekcja plikow #include
-            std::map<std::string, std::vector<std::string>> l;
-            l= wyszukiwanie(Files);
+            std::map<std::string, std::vector<std::pair<std::string,int>>>  l;
+            l= wyszukiwanie(Files);        
 
             for(auto i=l.begin() ; i!=l.end();++i)
             {
@@ -25,9 +28,8 @@ class Graph
                 {
                     for(auto j=i->second.begin() ; j != i->second.end();++j)
                     {
-                        std::cout<<"\""+i->first+"\""<<" <-";
-
-                        std::cout<<*j<<" ";
+                        std::cout<<i->first<<" druga czesc: "<<j->first<<" "<<j->second<<std::endl;
+                 
                     }
 
                 }
@@ -36,12 +38,12 @@ class Graph
             }
 
 
-                Save_In_File(l);
+               Save_In_File(l);
 
 
         };
 
-        void Save_In_File(std::map<std::string, std::vector<std::string>>  x)
+        void Save_In_File(std::map<std::string, std::vector<std::pair<std::string,int>>> x)
         {
             std::string name = " graf.dot";
             std::ofstream save(name);
@@ -55,7 +57,10 @@ class Graph
                     //tworzenie pliku
                     for(auto j=i->second.begin(); j!=i->second.end() ; ++j)
                     {
-                        save<<*j<<"->"<<"\""+i->first+"\""<<std::endl;
+
+
+
+                        save<<"\""+j->first<<"->"<<"\""+i->first+"\""<<std::endl;
                     }
 
 
@@ -65,7 +70,6 @@ class Graph
             
             
             std::string command = "dot -Tpng -O";
-
 
             system((command + name).c_str());
 
