@@ -21,14 +21,14 @@ class Graph
             //selekcja plikow #include
             std::map<std::string, std::vector<std::pair<std::string,int>>>  l;
             l= wyszukiwanie(Files);       
-               Save_In_File(l);
+            Save_In_File(l);
 
 
         };
 
         void Save_In_File(std::map<std::string, std::vector<std::pair<std::string,int>>> x)
         {
-            std::string name = " graf.dot";
+            std::string name = " graf";
             std::ofstream save(name);
             save<<pod;
 
@@ -43,7 +43,7 @@ class Graph
 
 
 
-                        save<<"\""+j->first<<"->"<<"\""+i->first+"\""<<std::endl;
+                        save<<"\""+j->first<<"->"<<"\""+i->first+"\";"<<std::endl;
                     }
 
 
