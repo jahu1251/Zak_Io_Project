@@ -4,13 +4,11 @@
 #include"search.cpp"
 #include<string> 
 
-//std::string s = std::to_string(42);
-
 class Graph
 {
     //struktura przyjmujaca dane z search
     std::map<std::string, std::vector<std::pair<std::string,int>>> l;
-    std::string pod = "digraph G {\n";
+    std::string pod = "digraph G{\n";
     std::string end = "}";
 
     public:
@@ -28,7 +26,7 @@ class Graph
 
         void Save_In_File(std::map<std::string, std::vector<std::pair<std::string,int>>> x)
         {
-            std::string name = " graf";
+            std::string name = "graf.dot";
             std::ofstream save(name);
             save<<pod;
 
@@ -43,18 +41,20 @@ class Graph
 
 
 
-                        save<<"\""+j->first<<"->"<<"\""+i->first+"\";"<<std::endl;
+                        save<<"\""+j->first<<"->"<<"\""+i->first+"\""<<std::endl;
                     }
 
 
                 }
             }
              save<<end;
-            
-            
-            std::string command = "dot -Tpng -O";
 
-            system((command + name).c_str());
+            
+            
+            std::string command = "dot -Tpng -O" + name;
+            std::cout<<command;
+
+            system((command).c_str());
 
         }
 
