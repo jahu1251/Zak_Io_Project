@@ -1,15 +1,12 @@
-#include<iostream>
-#include<map>
-#include<list>
-#include"search.cpp"
-#include<string> 
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include "search.cpp"
+#include <stdexcept>
+#include <string>
 
 class Graph
 {
-    //struktura przyjmujaca dane z search
-    std::map<std::string, std::vector<std::pair<std::string,int>>> l;
-    std::string pod = "digraph G{\n";
-    std::string end = "}";
 
     public:
 
@@ -24,41 +21,58 @@ class Graph
 
         };
 
-        void Save_In_File(std::map<std::string, std::vector<std::pair<std::string,int>>> x)
+        void Save_In_File(std::map<std::string, std::vector<std::pair<std::string,int>>> l)
         {
-            std::string name = "graf.dot";
-            std::ofstream save(name);
-            save<<pod;
 
-            
-            for(auto i = x.begin() ; i != x.end() ; ++i)
+            std::string name = "graf.dot";
+            std::ofstream file(name);
+            file << "digraph files_graph\n{\n";
+            for (auto i = l.begin(); i != l.end(); ++i) 
             {
                 if(i->first != "a.out")
                 {
-                    //tworzenie pliku
                     for(auto j=i->second.begin(); j!=i->second.end() ; ++j)
                     {
 
+                        file << '"' << j->first<< "->" << '"'<<i->first   << '"' << "[label = 1]"<< "\n";
 
 
-                        save<<"\""+j->first<<"->"<<"\""+i->first+"\""<<std::endl;
                     }
-
-
-                }
+                 }
             }
-             save<<end;
 
-            
-            
-            std::string command = "dot -Tpng -O" + name;
-            std::cout<<command;
+                file << "}";
+                file.close();
+                std::string word = "dot -Tpng -O graf.dot";
+                int n = word.length();
+                char array[n+1];
+                strcpy(array , word.c_str());
 
-            system((command).c_str());
 
+            exec(array);
         }
 
-     
+
+
+
+        std::string exec(const char* cmd) 
+        {
+            char buffer[128];
+            std::string result = "";
+            FILE* pipe = popen(cmd, "r");
+            if (!pipe) throw std::runtime_error("popen() failed!");
+            try {
+                while (fgets(buffer, sizeof buffer, pipe) != NULL) 
+                {
+                    result += buffer;
+                }
+                } catch (...) {
+                    pclose(pipe);
+                    throw;
+                }
+            pclose(pipe);
+            return result;
+        }
 
 
 };
