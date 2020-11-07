@@ -12,7 +12,6 @@ std::map<std::string, std::vector<std::pair<std::string,int>>> wyszukiwanie(std:
     std::map<std::string, std::vector<std::pair<std::string,int>>>  mapa;
     for (auto it = pliki.begin(); it != pliki.end(); ++it) 
   {
-
     std::ifstream plik(it->first);
     while(!plik.eof())
     {
@@ -25,6 +24,9 @@ std::map<std::string, std::vector<std::pair<std::string,int>>> wyszukiwanie(std:
             {
               miejsce += szukany.size();
               std::string nazwa_pliku = linijka.substr(miejsce);
+              if(it->first == "a.out")
+              {break;}
+              std::cout<<"Przed zapisem"<<it->first<<std::endl;
               mapa[it->first].push_back(std::make_pair(nazwa_pliku,it->second));                         
             }
 
